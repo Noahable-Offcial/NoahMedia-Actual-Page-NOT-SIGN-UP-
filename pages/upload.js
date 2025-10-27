@@ -1,24 +1,28 @@
-// pages/upload.js
 import { useState } from "react";
 import Navbar from "../components/Navbar";
 
 export default function Upload() {
-  const [videos, setVideos] = useState([]);
+  const [video, setVideo] = useState(null);
   const [title, setTitle] = useState("");
   const [preview, setPreview] = useState("");
 
   const handleVideoChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const url = URL.createObjectURL(file);
-      setPreview(url);
-      setVideos([...videos, { title, url }]);
+      setVideo(file);
+      setPreview(URL.createObjectURL(file));
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert(`Video "${title}" added (local only).`);
+    if (!video || !title.trim()) {
+      alert("Please add a video and title before uploading.");
+      return;
+    }
+
+    alert(`Video "${title}" uploaded (local only).`);
+    setVideo(null);
     setTitle("");
     setPreview("");
   };
@@ -70,7 +74,7 @@ export default function Upload() {
               cursor: "pointer",
             }}
           >
-            Upload (Local)
+            Upload
           </button>
         </form>
       </div>
