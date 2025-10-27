@@ -1,19 +1,37 @@
+// pages/index.js
+import { useEffect, useState } from "react";
+import { ref, onValue } from "firebase/database";
+import { db } from "../utils/firebase";
+import Navbar from "../components/Navbar";
 import VideoCard from "../components/VideoCard";
 import ChatBox from "../components/ChatBox";
 
 export default function Home() {
-  const videos = [
-    { id: 1, url: "/example.mp4", title: "Demo Video", author: "Noah" },
-  ];
+  const [videos, setVideos] = useState([]);
+
+  // Fetch videos in real time
+  useEffect(() => {
+    const videosRef = ref(db, "videos");
+    onValue(videosRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        // Convert Firebase object to array
+        const videoList = Object.values(data);
+        // Sort by newest first
+        setVideos(videoList.sort((a, b) => new Date(b.uploadedAt) - new Date(a.uploadedAt)));
+      } else {
+        setVideos([]);
+      }
+    });
+  }, []);
 
   return (
-    <div style={{ display: "flex", height: "100vh" }}>
-      <div style={{ flex: 2, overflowY: "scroll", padding: "10px" }}>
-        {videos.map(v => <VideoCard key={v.id} video={v} />)}
-      </div>
-      <div style={{ flex: 1, borderLeft: "1px solid #ccc", padding: "10px" }}>
-        <ChatBox />
-      </div>
-    </div>
-  );
-}
+    <div style={{ backgroundColor: "#0f0f0f", color: "#fff", minHeight: "100vh" }}>
+      <Navbar />
+
+      <div style={{ display: "flex", height: "calc(100vh - 60px)" }}>
+        {/* Video Feed */}
+        <div style={{
+          flex: 2,
+          overflowY: "scroll",
+          padding: "20px",
