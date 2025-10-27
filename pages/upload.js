@@ -81,8 +81,4 @@ export default function Upload() {
           >
             Upload
           </button>
-        </form>
-      </div>
-    </div>
-  );
-}
+        </form
