@@ -1,4 +1,3 @@
-// components/VideoCard.js
 export default function VideoCard({ video }) {
   return (
     <div style={{ marginBottom: "20px" }}>
