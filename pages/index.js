@@ -1,7 +1,5 @@
 // pages/index.js
 import { useEffect, useState } from "react";
-import { ref, onValue } from "firebase/database";
-import { db } from "../utils/firebase";
 import Navbar from "../components/Navbar";
 import VideoCard from "../components/VideoCard";
 import ChatBox from "../components/ChatBox";
