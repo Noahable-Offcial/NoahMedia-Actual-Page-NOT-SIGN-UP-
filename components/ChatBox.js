@@ -1,4 +1,3 @@
-// components/ChatBox.js
 import { useState } from "react";
 
 export default function ChatBox() {
@@ -7,8 +6,8 @@ export default function ChatBox() {
 
   const sendMessage = () => {
     if (!input.trim()) return;
-    const newMessage = { user: "You", text: input };
-    setMessages([...messages, newMessage]);
+    const newMsg = { user: "You", text: input };
+    setMessages([...messages, newMsg]);
     setInput("");
   };
 
@@ -26,4 +25,40 @@ export default function ChatBox() {
       >
         {messages.map((msg, i) => (
           <p key={i}>
-            <stron
+            <strong style={{ color: "#1e90ff" }}>{msg.user}:</strong> {msg.text}
+          </p>
+        ))}
+      </div>
+
+      <div>
+        <input
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="Type a message..."
+          style={{
+            width: "80%",
+            padding: "8px",
+            background: "#181818",
+            color: "#fff",
+            border: "1px solid #333",
+            borderRadius: "5px",
+          }}
+        />
+        <button
+          onClick={sendMessage}
+          style={{
+            backgroundColor: "#1e90ff",
+            color: "#fff",
+            border: "none",
+            padding: "9px 15px",
+            borderRadius: "5px",
+            marginLeft: "8px",
+            cursor: "pointer",
+          }}
+        >
+          Send
+        </button>
+      </div>
+    </div>
+  );
+}
