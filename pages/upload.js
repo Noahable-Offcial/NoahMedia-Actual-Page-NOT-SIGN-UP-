@@ -3,31 +3,22 @@ import { useState } from "react";
 import Navbar from "../components/Navbar";
 
 export default function Upload() {
-  const [video, setVideo] = useState(null);
+  const [videos, setVideos] = useState([]);
   const [title, setTitle] = useState("");
   const [preview, setPreview] = useState("");
 
   const handleVideoChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setVideo(file);
-      setPreview(URL.createObjectURL(file));
+      const url = URL.createObjectURL(file);
+      setPreview(url);
+      setVideos([...videos, { title, url }]);
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    if (!video || !title.trim()) {
-      alert("Please add a video and title before uploading.");
-      return;
-    }
-
-    // Temporary — later, this will upload to Firebase or a backend.
-    alert(`Video "${title}" uploaded successfully!`);
-
-    // Reset form
-    setVideo(null);
+    alert(`Video "${title}" added (local only).`);
     setTitle("");
     setPreview("");
   };
@@ -52,7 +43,7 @@ export default function Upload() {
                 borderRadius: "5px",
                 border: "1px solid #333",
                 background: "#181818",
-                color: "#fff"
+                color: "#fff",
               }}
             />
           </div>
@@ -76,9 +67,13 @@ export default function Upload() {
               border: "none",
               padding: "10px 20px",
               borderRadius: "5px",
-              cursor: "pointer"
+              cursor: "pointer",
             }}
           >
-            Upload
+            Upload (Local)
           </button>
-        </form
+        </form>
+      </div>
+    </div>
+  );
+}
